@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta :
         model = User
-        fields =('username','email',)
+        fields =('email','password','password2')
     def validate(self,data):
         pw1 = data.get('password')
         pw2 = data.pop('password2')
@@ -24,12 +24,12 @@ class UserSerializer(serializers.ModelSerializer):
         user_obj.save()
         return user_obj
 
-class LampSerialiazer(serializers.HyperlinkedModelSerializer):
+class LampSerializer(serializers.HyperlinkedModelSerializer):
     class Meta :
         model = Lamp
-        fields = ('owner','name','state')
+        fields = ('name','state')
 
-class LampSerialiazer(serializers.HyperlinkedModelSerializer):
+class ButtonSerializer(serializers.HyperlinkedModelSerializer):
     class Meta :
         model = Button
-        fields = ('owner','name','state')
+        fields = ('name','state')

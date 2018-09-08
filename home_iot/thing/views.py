@@ -11,7 +11,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permisson_classes = (IsOwnerOrReadOnly,)
 
 class LampViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = LampSerializer
     queryset = Lamp.objects.all()
     permisson_classes = (IsOwnerOrReadOnly,)
     @action(methods=['POST'],detail=True)
@@ -22,7 +22,7 @@ class LampViewSet(viewsets.ModelViewSet):
         return Response({'response':'button toogled successfully'},status=status.HTTP_200_OK)
 
 class ButtonViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
+    serializer_class = ButtonSerializer
     queryset = Button.objects.all()
     permisson_classes = (IsOwnerOrReadOnly,)
     @action(methods=['POST'],detail=True)
