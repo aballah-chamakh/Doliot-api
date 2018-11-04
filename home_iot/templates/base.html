@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Doliot</title>
+    <meta property="og:title" content="Doliot control your bulb">
+    <meta property="og:description" content="on Doliot we make it as fun as possible controlling you bulb from anywhere in the world ">
+    <meta property="og:image" content="http://104.248.71.14/media/iot_preview.jpg">
+    <meta property="og:url" content="http://104.248.71.14/">
+    <link rel="icon" type="image/ico" class='rounded-circle' href="{% static 'wifi.jpg' %}" />
+    {% include 'css.html' %}
+  </head>
+  <body>
+<div id='root'></div>
+{% include 'js.html' %}
+  </body>
+</html>

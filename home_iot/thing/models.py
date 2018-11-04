@@ -1,19 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
-from ckeditor.fields import RichTextField
-# Create your models here.
+from account.models import Profile
 
-class Lamp(models.Model):
-    owner = models.ForeignKey(User,on_delete=models.CASCADE)
+
+class Thing(models.Model):
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE,blank=True,null=True)
+    on_image = models.ImageField(default='bulbOn.jpg')
+    off_image = models.ImageField(default='bulbOff.jpg')
     name = models.CharField(max_length=255)
     state = models.BooleanField(default=False)
     def __str__(self):
-        return 'the lamp "'+self.name+'" owned by '+self.owner.username
+        return 'the bulb "'+self.name+'" owned by '+self.profile.user.username
 
-
-class Button(models.Model):
-    owner = models.ForeignKey(User,on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
-    state = models.BooleanField(default=False)
-    def __str__(self):
-        return 'the button "'+self.name+'" owned by '+self.owner.username
+    @property
+    def owner(self):
+        return self.profile.user

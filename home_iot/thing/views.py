@@ -1,33 +1,55 @@
 from django.shortcuts import render
-from rest_framework import viewsets,status
-from .serializers import *
-from .permissions import IsOwnerOrReadOnly
+from rest_framework import viewsets,status,generics
+from .serializers import ThingSerializer,DeviceThingSerializer
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from .models import Thing 
+from django.shortcuts import get_object_or_404
+from Shared.permissions import IsOwnerOrReadOnly
 
-class UserViewSet(viewsets.ModelViewSet):
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
-    permisson_classes = (IsOwnerOrReadOnly,)
 
-class LampViewSet(viewsets.ModelViewSet):
-    serializer_class = LampSerializer
-    queryset = Lamp.objects.all()
-    permisson_classes = (IsOwnerOrReadOnly,)
-    @action(methods=['POST'],detail=True)
-    def toogle_lamp(self,requets,pk):
-        lamp_obj = self.get_object()
-        lamp_obj.state = not lamp_obj.state
-        lamp_obj.save()
-        return Response({'response':'button toogled successfully'},status=status.HTTP_200_OK)
+class ThingViewSet(viewsets.ModelViewSet):
+    serializer_class = ThingSerializer
+    queryset = Thing.objects.all()
+    permission_classes = (IsOwnerOrReadOnly,)
+    @action(methods=['PUT'],detail=True)
+    def switch_on(self,request,pk):
+        thing_obj = self.get_object()
+        thing_obj.state = True
+        thing_obj.save()
+        serializer = ThingSerializer(thing_obj,many=False,context={'request':request})
+        return Response({'response':serializer.data},status=status.HTTP_200_OK)
+    @action(methods=['PUT'],detail=True)
+    def switch_off(self,request,pk):
+        thing_obj = self.get_object()
+        thing_obj.state = False
+        thing_obj.save()
+        serializer = ThingSerializer(thing_obj,many=False,context={'request':request})
+        return Response({'response':serializer.data},status=status.HTTP_200_OK)
+    def perform_create(self,serializer):
+        profile_obj = self.request.user.profile
+        serializer.save(profile=profile_obj)
 
-class ButtonViewSet(viewsets.ModelViewSet):
-    serializer_class = ButtonSerializer
-    queryset = Button.objects.all()
-    permisson_classes = (IsOwnerOrReadOnly,)
-    @action(methods=['POST'],detail=True)
-    def toogle_button(self,requets,pk):
-        button_obj = self.get_object()
-        button_obj.state = not button_obj.state
-        button_obj.save()
-        return Response({'response':'button toogled successfully'},status=status.HTTP_200_OK)
+
+# this view is designed to be resquested from the thing which's devices like Raspberry pi or arduino ...
+class DeviceThingViewSet(viewsets.ModelViewSet):
+    serializer_class = DeviceThingSerializer
+    queryset = Thing.objects.all()
+    permission_classes = (IsOwnerOrReadOnly,)
+    @action(methods=['PUT'],detail=True)
+    def switch_on(self,request,pk):
+        thing_obj = self.get_object()
+        thing_obj.state = True
+        thing_obj.save()
+        serializer = ThingSerializer(thing_obj,many=False,context={'request':request})
+        return Response({'response':serializer.data},status=status.HTTP_200_OK)
+    @action(methods=['PUT'],detail=True)
+    def switch_off(self,request,pk):
+        thing_obj = self.get_object()
+        thing_obj.state = False
+        thing_obj.save()
+        serializer = ThingSerializer(thing_obj,many=False,context={'request':request})
+        return Response({'response':serializer.data},status=status.HTTP_200_OK)
+    def perform_create(self,serializer):
+        profile_obj = self.request.user.profile
+        serializer.save(profile=profile_obj)

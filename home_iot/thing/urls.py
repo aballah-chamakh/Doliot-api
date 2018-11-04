@@ -1,14 +1,13 @@
 from django.conf.urls import include
 from django.urls import path
 from rest_framework import routers
-from . import views
+from .views import ThingViewSet,DeviceThingViewSet
 
 router = routers.DefaultRouter()
-router.register('user', views.UserViewSet)
-router.register('button', views.ButtonViewSet)
-router.register('lamp', views.LampViewSet)
+router.register('thing', ThingViewSet)
+router.register('device-thing', DeviceThingViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
 
 ]
