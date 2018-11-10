@@ -4,4 +4,4 @@ here the link for the repo of client-side that consume the doliot api : https://
 <br/>
 <br/>
 <br/>
-<img src="https://github.com/aballah-chamakh/Doliot-frontend/blob/master/src/img/turnOff.png" width="100%" />
+<img src="https://github.com/aballah-chamakh/Doliot-frontend/blob/master/src/img/turnOff.png" width="100%"/>
