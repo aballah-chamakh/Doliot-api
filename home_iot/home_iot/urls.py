@@ -1,10 +1,8 @@
 from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path,re_path
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+
+from rest_framework_jwt.views import obtain_jwt_token,refresh_jwt_token
 
 from thing import urls as thingUrl
 from account import urls as accountUrl
@@ -20,8 +18,9 @@ urlpatterns = [
     path('api/', include(accountUrl)),
     path('api/', include(documentationUrl)),
     path('api/', include(commentUrl)),
-    path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/', obtain_jwt_token, name='token_obtain_pair'),
+    path('api/token/refresh', refresh_jwt_token, name='token_refresh'),
+
     path('ckeditor/', include('ckeditor_uploader.urls')),
 ]
 if settings.DEBUG :

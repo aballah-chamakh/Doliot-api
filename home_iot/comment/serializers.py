@@ -4,7 +4,7 @@ from account.UserSerializer import SimpleUserSerializer
 
 
 
-class CommentSerializer(serializers.HyperlinkedModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     username  = serializers.CharField(source='owner.username',read_only=True)
     image     = serializers.ImageField(source='owner.profile.image',read_only=True)
     responses = serializers.SerializerMethodField('get_all_responses',read_only=True)
@@ -26,7 +26,7 @@ class CommentSerializer(serializers.HyperlinkedModelSerializer):
         serializer = SimpleUserSerializer(likes,many=True,context={'request':self.context['request']})
         return serializer.data
 
-class CommentResponseSerializer(serializers.HyperlinkedModelSerializer):
+class CommentResponseSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='owner.username',read_only=True)
     image = serializers.ImageField(source='owner.profile.image',read_only=True)
     likes = serializers.SerializerMethodField('get_all_like',read_only=True)

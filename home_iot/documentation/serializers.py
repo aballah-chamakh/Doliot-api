@@ -5,7 +5,7 @@ from comment.models import Comment
 from comment.serializers import CommentSerializer
 
 
-class DocumentationSerializer(serializers.HyperlinkedModelSerializer):
+class DocumentationSerializer(serializers.ModelSerializer):
     comments = serializers.SerializerMethodField('get_related_comment',read_only=True)
     likes = serializers.SerializerMethodField('get_all_likes',read_only=True)
     class Meta :
@@ -20,7 +20,7 @@ class DocumentationSerializer(serializers.HyperlinkedModelSerializer):
         serializer = SimpleUserSerializer(likes,many=True,context={'request': self.context['request']})
         return serializer.data
 
-class SimpleDocumentationSerializer(serializers.HyperlinkedModelSerializer):
+class SimpleDocumentationSerializer(serializers.ModelSerializer):
     class Meta :
         model = Documentation
         fields = ('id','slug','image','title','breif')
